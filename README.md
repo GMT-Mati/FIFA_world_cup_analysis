@@ -120,8 +120,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ## Contact
 
-For any questions or inquiries, please contact [your-email@example.com].
-
-```
-
-This `README.md` provides a comprehensive guide to the project, including setup instructions, script descriptions, and examples of the visualizations. Adjust the links and contact information as needed.
+For any questions or inquiries, please contact [mateusz.gruszka@linux.pl].
