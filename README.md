@@ -32,7 +32,7 @@ This project analyzes FIFA World Cup data to provide insights through data engin
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/fifa-world-cup-analysis.git
+   git clone https://github.com/GMT-Mati/FIFA_world_cup_analysis.git
    cd fifa-world-cup-analysis
    ```
 
