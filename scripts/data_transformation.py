@@ -7,4 +7,7 @@ def transform_data(matches, players, cups):
     winning_teams = cups.groupby('Winner').size().reset_index(name='Number of Wins')
     winning_teams = winning_teams.sort_values(by='Number of Wins', ascending=False)
 
+    # Calculate goal difference
+    matches['GoalDifference'] = matches['Home Team Goals'] - matches['Away Team Goals']
+
     return matches, total_goals_per_cup, winning_teams

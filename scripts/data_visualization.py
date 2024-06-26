@@ -13,36 +13,35 @@ def plot_total_goals(total_goals_per_cup):
     plt.show()
 
 
-def plot_most_successful_teams(winning_teams):
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='Number of Wins', y='Winner', data=winning_teams, palette='viridis')
-    plt.title('Most Successful Teams in World Cup History')
-    plt.xlabel('Number of Wins')
-    plt.ylabel('Team')
-    plt.xticks(rotation=90)
-    plt.tight_layout()
-    plt.show()
-
-
-
 def plot_goal_difference_distribution(matches):
     plt.figure(figsize=(10, 6))
     sns.histplot(matches['GoalDifference'], bins=20, kde=True)
-    plt.title('Distribution of Goal Differences in World Cup Matches')
+    plt.title('Goal Difference Distribution')
     plt.xlabel('Goal Difference')
     plt.ylabel('Frequency')
     plt.tight_layout()
     plt.show()
 
+def plot_most_successful_teams(winning_teams):
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x='Number of Wins', y='Winner', data=winning_teams, hue='Winner', dodge=False, palette='viridis')
+    plt.title('Most Successful Teams in World Cup History')
+    plt.xlabel('Number of Wins')
+    plt.ylabel('Team')
+    plt.legend([],[], frameon=False)
+    plt.tight_layout()
+    plt.show()
+
 
 def plot_top_goal_scorers(players, year):
-    top_scorers = players[players['Year'] == year].groupby('Player Name')['Goals'].sum().reset_index()
-    top_scorers = top_scorers.sort_values(by='Goals', ascending=False).head(10)
+    # Use the correct column name for goals
+    top_scorers = players[players['Year'] == year].groupby('Player Name')['Goals Scored'].sum().reset_index()
+    top_scorers = top_scorers.sort_values(by='Goals Scored', ascending=False).head(10)
 
     plt.figure(figsize=(10, 6))
-    sns.barplot(x='Goals', y='Player Name', data=top_scorers, orient='h')
-    plt.title(f'Top Goal Scorers in {year} World Cup')
-    plt.xlabel('Goals')
+    sns.barplot(x='Goals Scored', y='Player Name', data=top_scorers, palette='viridis')
+    plt.title(f'Top 10 Goal Scorers in {year}')
+    plt.xlabel('Goals Scored')
     plt.ylabel('Player Name')
     plt.tight_layout()
     plt.show()
