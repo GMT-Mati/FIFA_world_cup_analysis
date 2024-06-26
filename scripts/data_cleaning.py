@@ -3,16 +3,10 @@ import pandas as pd
 
 def clean_data(matches, players, cups):
     # Cleaning Matches DataFrame
-    # Handle different datetime formats
     matches['Datetime'] = pd.to_datetime(matches['Datetime'], errors='coerce')
-
-    # Drop rows with NaT values in 'Datetime' due to parsing errors
     matches = matches.dropna(subset=['Datetime']).copy()
-
-    # Standardize date format
     matches['Datetime'] = matches['Datetime'].dt.strftime('%Y-%m-%d %H:%M:%S')
 
-    # Handling missing values
     matches.fillna({
         'Home Team Name': 'Unknown',
         'Away Team Name': 'Unknown',
@@ -31,7 +25,6 @@ def clean_data(matches, players, cups):
         'Away Team Initials': 'UNK'
     }, inplace=True)
 
-    # Remove duplicates
     matches.drop_duplicates(inplace=True)
 
     # Cleaning Players DataFrame
@@ -43,6 +36,9 @@ def clean_data(matches, players, cups):
         'Position': 'Unknown',
         'Event': 'None'
     }, inplace=True)
+
+    # Merge players with matches to get the Year column
+    players = players.merge(matches[['MatchID', 'Year']], how='left', on='MatchID')
     players.drop_duplicates(inplace=True)
 
     # Cleaning Cups DataFrame

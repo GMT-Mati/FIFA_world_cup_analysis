@@ -1,13 +1,10 @@
 def transform_data(matches, players, cups):
-    # Calculate Goal Difference
-    matches['GoalDifference'] = abs(matches['Home Team Goals'] - matches['Away Team Goals'])
+    # Calculate total goals per cup
+    matches['Total Goals'] = matches['Home Team Goals'] + matches['Away Team Goals']
+    total_goals_per_cup = matches.groupby('Year')['Total Goals'].sum().reset_index()
 
-    # Total goals per cup
-    total_goals_per_cup = matches.groupby('Year')[['Home Team Goals', 'Away Team Goals']].sum().reset_index()
-    total_goals_per_cup['Total Goals'] = total_goals_per_cup['Home Team Goals'] + total_goals_per_cup['Away Team Goals']
-
-    # Winning teams
-    winning_teams = cups[['Year', 'Winner']].value_counts().reset_index(name='Number of Wins')
-    winning_teams.rename(columns={'Winner': 'Team'}, inplace=True)
+    # Calculate most successful teams
+    winning_teams = cups.groupby('Winner').size().reset_index(name='Number of Wins')
+    winning_teams = winning_teams.sort_values(by='Number of Wins', ascending=False)
 
     return matches, total_goals_per_cup, winning_teams

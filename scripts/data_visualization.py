@@ -15,13 +15,14 @@ def plot_total_goals(total_goals_per_cup):
 
 def plot_most_successful_teams(winning_teams):
     plt.figure(figsize=(10, 6))
-    sns.barplot(x='Team', y='Number of Wins', data=winning_teams)
+    sns.barplot(x='Number of Wins', y='Winner', data=winning_teams, palette='viridis')
     plt.title('Most Successful Teams in World Cup History')
-    plt.xlabel('Team')
-    plt.ylabel('Number of Wins')
+    plt.xlabel('Number of Wins')
+    plt.ylabel('Team')
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.show()
+
 
 
 def plot_goal_difference_distribution(matches):
