@@ -21,7 +21,7 @@ def main():
     matches, players, cups = clean_data(matches, players, cups)
 
     # Transform data
-    matches, total_goals_per_cup, winning_teams = transform_data(matches, players, cups)
+    matches, total_goals_per_cup, winning_teams, cups = transform_data(matches, players, cups)
 
     # Visualize data
     plot_total_goals(total_goals_per_cup)

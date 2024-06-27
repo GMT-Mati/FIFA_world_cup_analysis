@@ -41,6 +41,11 @@ def clean_data(matches, players, cups):
     players = players.merge(matches[['MatchID', 'Year']], how='left', on='MatchID')
     players.drop_duplicates(inplace=True)
 
+    # Extract event details
+    players['Goals'] = players['Event'].str.count('G')
+    players['Yellow Cards'] = players['Event'].str.count('Y')
+    players['Red Cards'] = players['Event'].str.count('R')
+
     # Cleaning Cups DataFrame
     cups.fillna({
         'Country': 'Unknown',

@@ -1,13 +1,24 @@
+import pandas as pd
+
+
 def transform_data(matches, players, cups):
-    # Calculate total goals per cup
-    matches['Total Goals'] = matches['Home Team Goals'] + matches['Away Team Goals']
-    total_goals_per_cup = matches.groupby('Year')['Total Goals'].sum().reset_index()
+    # Total goals per cup
+    total_goals_per_cup = matches.groupby('Year')[['Home Team Goals', 'Away Team Goals']].sum().reset_index()
+    total_goals_per_cup['Total Goals'] = total_goals_per_cup['Home Team Goals'] + total_goals_per_cup['Away Team Goals']
 
-    # Calculate most successful teams
-    winning_teams = cups.groupby('Winner').size().reset_index(name='Number of Wins')
-    winning_teams = winning_teams.sort_values(by='Number of Wins', ascending=False)
+    # Most successful teams (using cups data)
+    winning_teams = cups['Winner'].value_counts().reset_index()
+    winning_teams.columns = ['Winner', 'Number of Wins']
 
-    # Calculate goal difference
-    matches['GoalDifference'] = matches['Home Team Goals'] - matches['Away Team Goals']
+    # Goal difference calculation
+    matches['GoalDifference'] = abs(matches['Home Team Goals'] - matches['Away Team Goals'])
 
-    return matches, total_goals_per_cup, winning_teams
+    # Calculate goals scored by players
+    players['Goals Scored'] = players['Event'].apply(lambda x: str(x).count('G'))
+    players['Yellow Cards'] = players['Event'].apply(lambda x: str(x).count('Y'))
+    players['Red Cards'] = players['Event'].apply(lambda x: str(x).count('R'))
+
+    # Calculate average goals per match
+    cups['Average Goals per Match'] = cups['GoalsScored'] / cups['MatchesPlayed']
+
+    return matches, total_goals_per_cup, winning_teams, cups
